@@ -1,0 +1,14 @@
+﻿  Creating makefile for hot reloading ArenaBattleEditor (modules to compile have changed)
+  Compiling game modules for hot reload
+  Performing 5 actions (12 in parallel)
+  [2/5] Link UE4Editor-ArenaBattleSetting-1325.dll
+  [3/5] Link UE4Editor-ArenaBattleSetting-1325.lib
+     D:\UE_Project\ArenaBattle\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-ArenaBattleSetting-1325.lib 라이브러리 및 D:\UE_Project\ArenaBattle\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-ArenaBattleSetting-1325.exp 개체를 생성하고 있습니다.
+     D:\UE_Project\ArenaBattle\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-ArenaBattleSetting-1325.suppressed.lib 라이브러리 및 D:\UE_Project\ArenaBattle\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-ArenaBattleSetting-1325.suppressed.exp 개체를 생성하고 있습니다.
+  ABPlayerController.cpp
+  [4/5] Link UE4Editor-ArenaBattle-1325.dll
+  [5/5] Link UE4Editor-ArenaBattle-1325.lib
+     D:\UE_Project\ArenaBattle\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-ArenaBattle-1325.lib 라이브러리 및 D:\UE_Project\ArenaBattle\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-ArenaBattle-1325.exp 개체를 생성하고 있습니다.
+     D:\UE_Project\ArenaBattle\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-ArenaBattle-1325.suppressed.lib 라이브러리 및 D:\UE_Project\ArenaBattle\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-ArenaBattle-1325.suppressed.exp 개체를 생성하고 있습니다.
+  Deploying ArenaBattleEditor Win64 Development...
+  Total build time: 10.35 seconds (Local executor: 5.77 seconds)
