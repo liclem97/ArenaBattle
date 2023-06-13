@@ -30,11 +30,15 @@ void AABGameMode::PostLogin(APlayerController * NewPlayer)
 	ABPlayerState->InitPlayerData();
 }
 
+// 적을 처치한 플레이어의 스코어를 올려주는 함수.
 void AABGameMode::AddScore(AABPlayerController* ScoredPlayer)
 {
-	for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
+	// 플레이 중인 플레이어 컨트롤러를 모두 찾음.
+	for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It) 
 	{
 		const auto ABPlayerController = Cast<AABPlayerController>(It->Get());
+
+		// 점수를 획득한 플레이어에게 AddGameScore.
 		if ((nullptr != ABPlayerController) && (ScoredPlayer == ABPlayerController))
 		{
 			ABPlayerController->AddGameScore();
@@ -42,10 +46,13 @@ void AABGameMode::AddScore(AABPlayerController* ScoredPlayer)
 		}
 	}
 
+	// 토탈 게임 스코어 +1.
 	ABGameState->AddGameScore();
 
+	// 클리어를 위한 스코어 확인.
 	if (GetScore() >= ScoreToClear)
 	{
+		// 게임 클리어 처리 과정.
 		ABGameState->SetGameCleared();
 
 		for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; It++)

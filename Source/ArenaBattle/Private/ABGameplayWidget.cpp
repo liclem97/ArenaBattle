@@ -44,7 +44,7 @@ void UABGameplayWidget::OnReturnToTitleClicked()
 
 void UABGameplayWidget::OnRetryGameClicked()
 {
-	auto ABPlayerControler = Cast<AABPlayerController>(GetOwningPlayer());
-	ABCHECK(nullptr != ABPlayerControler);
-	ABPlayerControler->RestartLevel();
+	auto ABPlayerController = Cast<AABPlayerController>(GetOwningPlayer());
+	ABCHECK(nullptr != ABPlayerController);
+	ABPlayerController->RestartLevel();
 }

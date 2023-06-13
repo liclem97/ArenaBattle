@@ -100,6 +100,7 @@ void AABCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// 캐릭터가 플레이어인지 AI인지 판별.
 	bIsPlayer = IsPlayerControlled();
 	if (bIsPlayer)
 	{
@@ -115,16 +116,19 @@ void AABCharacter::BeginPlay()
 	auto DefaultSetting = GetDefault<UABCharacterSetting>();
 
 	if (bIsPlayer)
-	{
+	{	
+		// 플레이어인 경우 ABPlayerState에서 캐릭터 인덱스를 가져와서 저장.
 		auto ABPlayerState = Cast<AABPlayerState>(PlayerState);
 		ABCHECK(nullptr != ABPlayerState);
 		AssetIndex = ABPlayerState->GetCharacterIndex();
 	}
 	else
-	{
+	{	
+		// AI인 경우 캐릭터 에셋을 랜덤으로 지정함.
 		AssetIndex = FMath::RandRange(0, DefaultSetting->CharacterAssets.Num() - 1);
 	}
 
+	//캐릭터 에셋 로드.
 	CharacterAssetToLoad = DefaultSetting->CharacterAssets[AssetIndex];
 	auto ABGameInstance = Cast<UABGameInstance>(GetGameInstance());
 	ABCHECK(nullptr != ABGameInstance);
@@ -139,6 +143,7 @@ void AABCharacter::SetCharacterState(ECharacterState NewState)
 	ABCHECK(CurrentState != NewState);
 	CurrentState = NewState;
 
+	// 캐릭터의 현재 상태에 따른 스위치.
 	switch (CurrentState)
 	{
 	case ECharacterState::LOADING:
@@ -252,6 +257,7 @@ float AABCharacter::GetFinalAttackDamage() const
 	return AttackDamage + AttackModifier;
 }
 
+// 플레이어가 컨트롤 하는 시점 변경.
 void AABCharacter::SetControlMode(EControlMode ControlMode)
 {
 	CurrentControlMode = ControlMode;
@@ -329,13 +335,15 @@ void AABCharacter::PostInitializeComponents()
 		ABLOG(Warning, TEXT("OnNextAttackCheck"));
 		CanNextCombo = false;
 
+		// 현재 콤보 입력이 활성화된 상태인지 확인.
 		if (IsComboInputOn)
-		{
-			AttackStartComboState();
-			ABAnim->JumpToAttackMontageSection(CurrentCombo);
+		{	
+			AttackStartComboState(); // 다음 공격 콤보 상태를 시작.
+			ABAnim->JumpToAttackMontageSection(CurrentCombo); // 공격 몽타주에서 해당 섹션으로 이동.
 		}
 	});
 
+	// OnAttackHitCheck 이벤트를 이 클래스의 AttackCheck 함수와 바인딩.
 	ABAnim->OnAttackHitCheck.AddUObject(this, &AABCharacter::AttackCheck);
 }
 
@@ -346,7 +354,8 @@ float AABCharacter::TakeDamage(float DamageAmount, FDamageEvent const & DamageEv
 
 	CharacterStat->SetDamage(FinalDamage);
 	if (CurrentState == ECharacterState::DEAD)
-	{
+	{	
+		// 캐릭터 사망 시 죽인 사람이 플레이어인지 확인.
 		if (EventInstigator->IsPlayerController())
 		{
 			auto ABPlayerController = Cast<AABPlayerController>(EventInstigator);
@@ -386,8 +395,9 @@ void AABCharacter::SetWeapon(AABWeapon * NewWeapon)
 {
 	ABCHECK(nullptr != NewWeapon);
 
-	if (nullptr != CurrentWeapon)
+	if (CurrentWeapon != nullptr)
 	{
+		// 이미 무기를 가진 경우 무기 분리 후 파괴.
 		CurrentWeapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 		CurrentWeapon->Destroy();
 		CurrentWeapon = nullptr;
@@ -396,6 +406,7 @@ void AABCharacter::SetWeapon(AABWeapon * NewWeapon)
 	FName WeaponSocket(TEXT("hand_rSocket"));
 	if (nullptr != NewWeapon)
 	{
+		// 새로운 무기 장착.
 		NewWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
 		NewWeapon->SetOwner(this);
 		CurrentWeapon = NewWeapon;
@@ -556,6 +567,7 @@ void AABCharacter::AttackCheck()
 	}
 }
 
+// 캐릭터 에셋을 불러와서 적용시키는 함수.
 void AABCharacter::OnAssetLoadCompleted()
 {
 	USkeletalMesh* AssetLoaded = Cast<USkeletalMesh>(AssetStreamingHandle->GetLoadedAsset());
@@ -563,7 +575,3 @@ void AABCharacter::OnAssetLoadCompleted()
 	ABCHECK(nullptr != AssetLoaded);
 	SetCharacterState(ECharacterState::READY);	
 }
-
-
-
-

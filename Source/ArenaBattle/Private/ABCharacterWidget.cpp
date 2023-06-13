@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// 캐릭터의 HP와 같은 기본적인 스탯 위젯 함수.
 
 #include "ABCharacterWidget.h"
 #include "ABCharacterStatComponent.h"
